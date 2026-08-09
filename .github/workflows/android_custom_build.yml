@@ -23,10 +23,15 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Installation du NDK
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "ndk;30.0.15729638"
+
       - name: Configuration de Gradle & Cache
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Compilation de l'APK (Debug)
+      - name: Compilation de l'APK
         working-directory: Source/Android
         run: |
           chmod +x gradlew
