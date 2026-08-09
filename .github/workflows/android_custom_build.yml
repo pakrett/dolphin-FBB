@@ -37,14 +37,17 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleRelease --stacktrace
 
-      - name: Signer l'APK
-        uses: rkiener/signed-build-action@v1
-        with:
-          releaseDirectory: Source/Android/app/build/outputs/apk/release/*.apk
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
+      - name: Signer l'APK avec apksigner
+        run: |
+          echo "${{ secrets.SIGNING_KEY }}" | base64 -d > release.keystore
+          APK_FILE=$(find Source/Android/app/build/outputs/apk/release/ -name "*.apk" | head -n 1)
+          $ANDROID_HOME/build-tools/34.0.0/apksigner sign \
+            --ks release.keystore \
+            --ks-key-alias "${{ secrets.ALIAS }}" \
+            --ks-pass pass:"${{ secrets.KEY_STORE_PASSWORD }}" \
+            --key-pass pass:"${{ secrets.KEY_PASSWORD }}" \
+            "$APK_FILE"
+          rm release.keystore
 
       - name: Exportation du fichier APK
         uses: actions/upload-artifact@v4
