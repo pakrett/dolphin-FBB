@@ -2,16 +2,11 @@ YAML
 
 name: Build Android APK
 
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - master
+on: [workflow_dispatch, push]
 
 jobs:
   build-android:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -30,16 +25,6 @@ jobs:
 
       - name: Accept Android Licenses
         run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
-
-      - name: Cache Gradle Packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
 
       - name: Make Gradle Executable
         run: chmod +x gradlew
