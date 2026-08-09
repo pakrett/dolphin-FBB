@@ -44,7 +44,7 @@ jobs:
       - name: Make Gradle Executable
         run: chmod +x gradlew
 
-      - name: Build Android APK (Debug)
+      - name: Build Android APK
         run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK Artifact
