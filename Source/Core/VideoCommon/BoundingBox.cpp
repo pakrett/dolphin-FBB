@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "VideoCommon/BoundingBox.h"
+#include "Core/Config/GraphicsSettings.h"
 
 #include <algorithm>
 
@@ -60,6 +61,23 @@ void BoundingBox::Readback()
   if (!g_backend_info.bSupportsBBox)
     return;
 
+  // MMJR2 Fast BBox Bypass:
+  // If the hack is enabled, do NOT call Read() from the GPU backend.
+  if (Config::Get(Config::GFX_HACK_FAST_BBOX))
+  {
+    static constexpr std::array<BBoxType, 4> fallback_bbox = {0, 0, 640, 528};
+
+    for (u32 i = 0; i < NUM_BBOX_VALUES; i++)
+    {
+      if (!m_dirty[i])
+        m_values[i] = (i < fallback_bbox.size()) ? fallback_bbox[i] : 0;
+    }
+
+    m_is_valid = true;
+    return;
+  }
+
+  // Official Dolphin path
   auto read_values = Read(0, NUM_BBOX_VALUES);
 
   // Preserve dirty values, that way we don't need to sync.
@@ -78,6 +96,15 @@ u16 BoundingBox::Get(u32 index)
 
   if (!g_ActiveConfig.bBBoxEnable || !g_backend_info.bSupportsBBox)
     return m_bounding_box_fallback[index];
+
+  // If Fast BBox is enabled, populate fallback values without triggering GPU stalls
+  if (Config::Get(Config::GFX_HACK_FAST_BBOX))
+  {
+    if (!m_is_valid)
+      Readback();
+
+    return static_cast<u16>(m_values[index]);
+  }
 
   if (!m_is_valid)
     Readback();
