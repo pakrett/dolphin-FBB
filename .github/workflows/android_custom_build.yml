@@ -1,0 +1,45 @@
+YAML
+
+name: Build Dolphin Android APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du dépôt
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Configuration de Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Configuration de Android SDK & NDK
+        uses: android-actions/setup-android@v3
+
+      - name: Acceptation des licences SDK
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
+      - name: Rendre Gradle exécutable
+        run: |
+          cd Source/Android
+          chmod +x gradlew
+
+      - name: Compilation de l'APK (Debug)
+        run: |
+          cd Source/Android
+          ./gradlew assembleDebug --stacktrace
+
+      - name: Exportation de l'APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Dolphin-Android-APK
+          path: Source/Android/app/build/outputs/apk/**/*.apk
