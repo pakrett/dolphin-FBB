@@ -297,6 +297,7 @@ void HacksWidget::UpdateBoundingBoxEnabled(const QString& backend_name)
 
   const bool bbox = g_backend_info.bSupportsBBox;
   m_disable_bounding_box->setEnabled(bbox);
+  m_fast_bbox->setEnabled(bbox);
 
   if (bbox)
   {
