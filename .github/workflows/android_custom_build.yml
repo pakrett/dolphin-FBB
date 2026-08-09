@@ -37,8 +37,18 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleRelease --stacktrace
 
+      - name: Signer l'APK
+        uses: rxdew/sign-android-release-action@v1
+        with:
+          releaseDirectory: Source/Android/app/build/outputs/apk/release/*.apk
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
       - name: Exportation du fichier APK
         uses: actions/upload-artifact@v4
         with:
           name: Dolphin-Android-APK
           path: Source/Android/app/build/outputs/apk/release/*.apk
+
