@@ -2,11 +2,7 @@ YAML
 
 name: Build Android APK
 
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - master
+'on': [workflow_dispatch]
 
 jobs:
   build-android:
