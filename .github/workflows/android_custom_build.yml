@@ -35,7 +35,7 @@ jobs:
         working-directory: Source/Android
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
+          ./gradlew assembleRelease --stacktrace
 
       - name: Exportation du fichier APK
         uses: actions/upload-artifact@v4
