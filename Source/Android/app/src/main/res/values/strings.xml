@@ -294,6 +294,8 @@
     <string name="fast_depth_calculation_description">Uses a less accurate algorithm to calculate depth values. Causes issues in a few games, but can result in a decent speed increase depending on the game and/or GPU. If unsure, leave this checked.</string>
     <string name="disable_bbox">Disable Bounding Box</string>
     <string name="disable_bbox_description">Disables bounding box emulation. This may improve GPU performance significantly, but some games will break. If unsure, leave this checked.</string>
+    <string name="fast_bbox">Fast Bounding Box MMJR2</string>
+    <string name="fast_bbox_description">DBypasses CPU-GPU synchronization stalls when games request Bounding Box data. Improves performance significantly on lower-end/mobile GPUs, but may cause graphical glitches. If unsure, leave this unchecked.</string>
     <string name="vertex_rounding">Vertex Rounding</string>
     <string name="vertex_rounding_description">Rounds 2D vertices to whole pixels and rounds the viewport size to a whole number. Fixes graphical problems in some games at higher internal resolutions. This setting has no effect when native internal resolution is used. If unsure, leave this unchecked.</string>
     <string name="vi_skip">VBI Skip</string>
