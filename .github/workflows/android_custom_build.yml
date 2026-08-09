@@ -38,7 +38,7 @@ jobs:
           ./gradlew assembleRelease --stacktrace
 
       - name: Signer l'APK
-        uses: rxdew/sign-android-release-action@v1
+        uses: rstudio/sign-android-release-action@v1
         with:
           releaseDirectory: Source/Android/app/build/outputs/apk/release/*.apk
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
