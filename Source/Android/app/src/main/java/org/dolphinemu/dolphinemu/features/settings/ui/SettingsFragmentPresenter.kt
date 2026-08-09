@@ -1853,6 +1853,14 @@ class SettingsFragmentPresenter(
         sl.add(
             SwitchSetting(
                 context,
+                BooleanSetting.GFX_HACK_FAST_BBOX,
+                R.string.fast_bbox,
+                R.string.fast_bbox_description
+            )
+        )
+        sl.add(
+            SwitchSetting(
+                context,
                 BooleanSetting.GFX_HACK_VERTEX_ROUNDING,
                 R.string.vertex_rounding,
                 R.string.vertex_rounding_description
