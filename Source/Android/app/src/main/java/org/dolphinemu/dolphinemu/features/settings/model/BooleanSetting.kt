@@ -837,6 +837,12 @@ enum class BooleanSetting(
         false
     ),
     GFX_HACK_BBOX_ENABLE(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS, "BBoxEnable", false),
+    GFX_HACK_FAST_BBOX(
+        Settings.FILE_GFX,
+        Settings.SECTION_GFX_HACKS,
+        "FastBBox",
+        false
+    ),
     GFX_HACK_SKIP_EFB_COPY_TO_RAM(
         Settings.FILE_GFX,
         Settings.SECTION_GFX_HACKS,
