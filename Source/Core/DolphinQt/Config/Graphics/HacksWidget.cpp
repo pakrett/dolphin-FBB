@@ -102,6 +102,8 @@ void HacksWidget::CreateWidgets()
       new ConfigBool(tr("Fast Depth Calculation"), Config::GFX_FAST_DEPTH_CALC, m_game_layer);
   m_disable_bounding_box =
       new ConfigBool(tr("Disable Bounding Box"), Config::GFX_HACK_BBOX_ENABLE, m_game_layer, true);
+  m_fast_bbox = 
+      new ConfigBool(tr("Fast Bounding Box MMJR2"), Config::GFX_HACK_FAST_BBOX, m_game_layer);
   m_vertex_rounding =
       new ConfigBool(tr("Vertex Rounding"), Config::GFX_HACK_VERTEX_ROUNDING, m_game_layer);
   m_save_texture_cache_state = new ConfigBool(
@@ -113,6 +115,7 @@ void HacksWidget::CreateWidgets()
   other_layout->addWidget(m_vertex_rounding, 1, 0);
   other_layout->addWidget(m_save_texture_cache_state, 1, 1);
   other_layout->addWidget(m_vi_skip, 2, 0);
+  other_layout->addWidget(m_fast_bbox, 2, 1);
 
   main_layout->addWidget(efb_box);
   main_layout->addWidget(texture_cache_box);
@@ -227,6 +230,12 @@ void HacksWidget::AddDescriptions()
                  "<dolphin_emphasis>WARNING: Can cause freezes and compatibility "
                  "issues.</dolphin_emphasis> <br><br>"
                  "<dolphin_emphasis>If unsure, leave this unchecked.</dolphin_emphasis>");
+  static const char TR_FAST_BBOX_DESCRIPTION[] =
+      QT_TR_NOOP("Bypasses CPU-GPU synchronization stalls when games request Bounding Box data "
+                 "(e.g., Paper Mario).<br><br>"
+                 "Improves performance significantly on lower-end/mobile GPUs, but may cause "
+                 "graphical glitches.<br><br>"
+                 "<dolphin_emphasis>If unsure, leave this unchecked.</dolphin_emphasis>");
 
   m_skip_efb_cpu->SetDescription(tr(TR_SKIP_EFB_CPU_ACCESS_DESCRIPTION));
   m_ignore_format_changes->SetDescription(tr(TR_IGNORE_FORMAT_CHANGE_DESCRIPTION));
@@ -241,6 +250,7 @@ void HacksWidget::AddDescriptions()
   m_save_texture_cache_state->SetDescription(tr(TR_SAVE_TEXTURE_CACHE_TO_STATE_DESCRIPTION));
   m_vertex_rounding->SetDescription(tr(TR_VERTEX_ROUNDING_DESCRIPTION));
   m_vi_skip->SetDescription(tr(TR_VI_SKIP_DESCRIPTION));
+  m_fast_bbox->SetDescription(tr(TR_FAST_BBOX_DESCRIPTION));
 }
 
 void HacksWidget::UpdateGPUTextureDecodingEnabled(const QString& backend_name)
