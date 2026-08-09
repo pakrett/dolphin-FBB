@@ -53,6 +53,7 @@ private:
   // Other
   ConfigBool* m_fast_depth_calculation;
   ConfigBool* m_disable_bounding_box;
+  ConfigBool* m_fast_bbox;
   ConfigBool* m_vertex_rounding;
   ConfigBool* m_vi_skip;
   ConfigBool* m_save_texture_cache_state;
